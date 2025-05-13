@@ -1,0 +1,107 @@
+<div class="w-full h-full flex flex-col gap-2">
+    <div class="w-full h-full flex flex-1">
+        <div class="flex-1 border-r-1 flex flex-col justify-start">
+            <div class="flex flex-col justify-center items-center py-2">
+                <h3 class="text-2xl text-red-700 font-bold">AKA</h3>
+                <h4>Fulano de Tal</h4>
+            </div>
+            <div class="flex flex-col justify-center items-center py-2">
+                <span class="text-red-700 text-6xl font-bold">
+                    {{ scoreAka?.score() }}
+                </span>
+            </div>
+            <div class="flex flex-col p-2 gap-1 flex-1">
+                @for(point of scoreAka?.points(); track point) {
+                    <span class="rounded-full px-2 border text-center bg-red-600 text-white">
+                        {{ point.name }}
+                    </span>
+                }
+                @for(punishment of scoreAka?.punishments(); track punishment) {
+                    <span class="rounded-full px-2 border text-center bg-red-600 text-white">
+                        {{ punishment.name }}
+                    </span>
+                }
+            </div>
+            <div class="flex flex-col p-2 gap-1">
+                <span class="font-bold text-center">PONTUAÇÕES</span>
+                @for(pointType of pointTypes ; track pointType) {
+                    <span class="rounded-full h-7 px-2 border text-center cursor-pointer hover:bg-red-200" (click)="scoreAka?.addPoint(pointType)">
+                        {{ pointType.name }}
+                    </span>
+                }                
+            </div>
+            <div class="flex flex-col p-2 gap-1 justify-self-end">
+                <span class="font-bold text-center">PUNIÇÕES</span>
+                @for(punishmentType of punishmentTypes; track punishmentType) {
+                    <span class="rounded-full h-7 px-2 border text-center cursor-pointer hover:bg-red-200" (click)="scoreAka?.addPunishment(punishmentType)">
+                        {{ punishmentType.name }}
+                    </span>
+                }
+            </div>
+        </div>
+        <div class="flex-1 flex flex-col">
+            <div class="flex flex-col justify-center items-center py-2">
+                <h3 class="text-2xl font-bold">SHIRO</h3>
+                <h4>Fulano de Tal</h4>
+            </div>
+            <div class="flex flex-col justify-center items-center py-2">
+                <span class="text-6xl font-bold">
+                    {{ scoreShiro?.score() }}
+                </span>
+            </div>
+            <div class="flex flex-col p-2 gap-1 flex-1">
+                @for(point of scoreShiro?.points(); track point) {
+                    <span class="rounded-full px-2 border text-center bg-black text-white">
+                        {{ point.name }}
+                    </span>
+                }
+                @for(punishment of scoreShiro?.punishments(); track punishment) {
+                    <span class="rounded-full px-2 border text-center bg-black text-white">
+                        {{ punishment.name }}
+                    </span>
+                }
+            </div>
+            <div class="flex flex-col p-2 gap-1">
+                <span class="font-bold text-center">PONTUAÇÕES</span>
+                 @for(pointType of pointTypes ; track pointType) {
+                    <span class="rounded-full h-7 px-2 border text-center cursor-pointer hover:bg-gray-200" (click)="scoreShiro?.addPoint(pointType)">
+                        {{ pointType.name }}
+                    </span>
+                }
+            </div>
+            <div class="flex flex-col p-2 gap-1 justify-self-end">
+                <span class="font-bold text-center">PUNIÇÕES</span>
+                @for(punishmentType of punishmentTypes; track punishmentType) {
+                    <span class="rounded-full h-7 px-2 border text-center cursor-pointer hover:bg-gray-200" (click)="scoreShiro?.addPunishment(punishmentType)">
+                        {{ punishmentType.name }}
+                    </span>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="flex justify-between">
+        <div class="border bg-blue-500 h-8 rounded-full self-center p-6 min-w-48 flex items-center justify-between text-white font-bold text-2xl cursor-pointer hover:bg-blue-600" (click)="toggleTimer()">
+            <span>{{ formatedTime }}</span>
+            @if (!timerPaused()) {
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 320 512" height="32px" width="32px" xmlns="http://www.w3.org/2000/svg"><path d="M48 64C21.5 64 0 85.5 0 112L0 400c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48L48 64zm192 0c-26.5 0-48 21.5-48 48l0 288c0 26.5 21.5 48 48 48l32 0c26.5 0 48-21.5 48-48l0-288c0-26.5-21.5-48-48-48l-32 0z"></path></svg>
+            } @else {
+                <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 384 512" height="32px" width="32px" xmlns="http://www.w3.org/2000/svg"><path d="M73 39c-14.8-9.1-33.4-9.4-48.5-.9S0 62.6 0 80L0 432c0 17.4 9.4 33.4 24.5 41.9s33.7 8.1 48.5-.9L361 297c14.3-8.7 23-24.2 23-41s-8.7-32.2-23-41L73 39z"></path></svg>
+            }
+        </div>
+        <div class="border rounded-full h-12 w-12 bg-gray-500 text-white flex justify-center items-center hover:bg-gray-600 cursor-pointer" (click)="toggleFloatingMenu()">
+            <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 512 512" height="36px" width="36px" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke-linecap="round" stroke-miterlimit="10" stroke-width="48" d="M88 152h336M88 256h336M88 360h336"></path></svg>
+        </div>
+        <div class="absolute right-2 bottom-16 w-[200px] bg-gray-500 flex flex-col rounded-lg font-bold text-white duration-300 ease-in opacity-0 invisible" [ngClass]="{ 'opacity-100 visible' : floatingMenuVisible() }">
+            <span class="border-b p-2 cursor-pointer hover:bg-gray-600 rounded-t-lg" (click)="resetMatch()">REINICIAR TUDO</span>
+            <span class="border-b p-2 cursor-pointer hover:bg-gray-600 rounded-b-lg" (click)="resetTimer()">REINICIAR TEMPO</span>
+        </div>
+    </div>
+</div>
+
+<div class="border w-[80vw] h-14 shadow-xl duration-300 ease-in rounded bg-yellow-400 text-white font-bold absolute left-[10vw] flex justify-center items-center" [ngClass]="{ 'top-[100px]': atoShibaraku, 'top-[-100px]': !atoShibaraku }">
+    ATO SHIBARAKU
+</div>
+
+<div class="border w-[80vw] h-14 shadow-xl duration-300 ease-in rounded bg-red-400 text-white font-bold absolute left-[10vw] flex justify-center items-center" [ngClass]="{ 'top-[100px]': timeOut, 'top-[-100px]': !timeOut }">
+    TEMPO ESGOTADO
+</div>
